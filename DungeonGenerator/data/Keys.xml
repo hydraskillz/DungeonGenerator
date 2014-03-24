@@ -1,0 +1,10 @@
+<Keys defaultPrefix="Key" defaultIcon="textures/key_icon.png" defaultModel="obj/KeyCard.obj">
+  <Key suffix="of Despair"/>
+  <Key suffix="of Loathing"/>
+  <Key suffix="of Hate"/>
+  <Key suffix="of Terror"/>
+  <Key suffix="of Destruction"/>
+  <Key suffix="of Sin"/>
+  <Key suffix="of Seduction"/>
+  <Key suffix="of Misery"/>
+</Keys>

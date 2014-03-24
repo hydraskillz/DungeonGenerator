@@ -1,0 +1,26 @@
+
+Generation
+ rooms with different height
+ rooms with different shape
+ texturing rules
+ object placement rules
+  adjecency rules
+  ensure objects do not spawn on each other
+ locked doors
+  key placement
+ secret doors
+ enemy spawns
+ clutter and detail objects
+ teasure and pickup spawns
+ 
+Gameplay
+ shooting
+ enemies
+ hud
+  hp
+  ammo
+  minimap
+
+
+key placement
+ 

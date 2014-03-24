@@ -1,0 +1,258 @@
+<Area name="Lair of Misery"
+      areaSize="50,50"
+      maxRooms="3"
+      minRoomSize="6,6" maxRoomSize="16,16"
+      verticalness="0.0"
+      verticalBiasUp="0.0"
+      verticalBiasDown="0.0"
+      doorChance="1.0"
+      doorLockChance="1.0"
+      ambientLightColor="1.0,1.0,1.0"
+      ambientLightIntensity="0.15"
+      endDepth="1"
+      nextArea="CaveOfTorment.xml">
+
+  
+  <Styles>
+    <Style name="floor01" file="obj/floor01.obj" usage="floor"/>
+    <Style name="wall01" file="obj/wall01.obj" usage="wall"/>
+    <Style name="corner_outsude01" file="obj/corner_outside.obj" usage="corner_outside"/>
+    <Style name="corner01" file="obj/corner01.obj" usage="corner"/>
+    <Style name="stair_base01" file="obj/stair_base01.obj" usage="stair_base"/>
+    <Style name="stair_top01" file="obj/stair_top01.obj" usage="stair_top"/>
+    <Style name="door_frame01" file="obj/door_frame01.obj" usage="door_frame"/>
+    <Style name="door01" file="obj/door01.obj" usage="door"/>
+    <!--
+    The canBeLocked attribute forces a door to never lock.
+    The forceLocked will cause a door to lock without a key, you must open it through an event.
+    -->
+    <Style name="door_exit" file="obj/door01.obj" usage="door" canBeLocked="false" forceLocked="true">
+      <Slot tag="bossDeath" commands="open"/>
+    </Style>
+    <Style name="exit01" file="obj/exit01.obj" usage="exit"/>
+    <Style name="entrance01" file="obj/exit01.obj" usage="entrance"/>
+  </Styles>
+
+  <SpawnLists>
+    <SpawnList name="manc" list="manc"/>
+    <!--
+    <SpawnList name="imp" list="imp"/>
+    <SpawnList name="hell_knight" list="hell_knight"/>
+    -->
+  </SpawnLists>
+
+
+  <Objects>
+    <!-- Lights -->
+    <Object name="pickup_light" usage="light" lightColor="1,1,1" lightRadius="0.35" lightFalloff="0.2" lightIntensity="0.4"/>
+
+    <Object name="red_light01" usage="light" lightColor="1,0,0" localSpawnOffset="0,0.5,0">
+      <Rule type="canSpawnOn" usages="exit"/>
+    </Object>
+
+    <Object name="yellow_light01" usage="light" lightColor="1,1,0" localSpawnOffset="0,0.5,0">
+      <Rule type="canSpawnOn" usages="entrance"/>
+    </Object>
+
+    <!-- Static Objects -->
+    <Object name="pillar01" file="obj/pillar01.obj" usage="static">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="notAdjacentToUsage" directionsToCheck="n,s,e,w,ne,nw,se,sw" usages="door_frame,stair_base,stair_top,corner_outside"/>
+      <Rule type="notAdjacentToObject" directionsToCheck="n,s,e,w,ne,nw,se,sw" objectNames="pillar01"/>
+    </Object>
+    
+    <!-- Loot -->
+    <Object name="health_pack01" usage="pickup" pickupName="stimpack-s" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="5"/>
+    </Object>
+
+    <Object name="ammo01" usage="pickup" pickupName="ammo-box" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="5"/>
+    </Object>
+
+    <!-- Treasure Room Loot -->
+    <Object name="armor_tr01" usage="pickup" pickupName="armor" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+    </Object>
+
+    <Object name="health_pack_tr01" usage="pickup" pickupName="stimpack-s" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+    </Object>
+
+    <Object name="ammo_tr01" usage="pickup" pickupName="ammo-box" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+    </Object>
+
+
+    <!-- Weapons -->
+    <Object name="shotgun" usage="pickup" pickupName="shotgun" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+    </Object>
+
+    <Object name="chaingun" usage="pickup" pickupName="chaingun" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+    </Object>
+
+    <Object name="bfg9000" usage="pickup" pickupName="BFG9000" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+    </Object>
+
+    <Object name="lamp_light" usage="light" lightColor="1,1,1" lightRadius="1.33" localSpawnOffset="0,0.5,0"/>
+    <Object name="lamp_light2" usage="light" lightColor="1,1,0" lightRadius="0.53" lightFalloff="0.2" localSpawnOffset="0,0.5,0"/>
+
+    <Object name="lamp01" file="obj/lamp01.obj" usage="static" attachment="lamp_light">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="notAdjacentToUsage" usages="door_frame,stair_base,stair_top,corner_outside"/>
+      <Rule type="notAdjacentToObject" directionsToCheck="n,s,e,w,ne,nw,se,sw" objectNames="lamp01"/>
+    </Object>
+
+    <Object name="lamp02" file="obj/lamp01.obj" usage="static" attachment="lamp_light2">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="notAdjacentToUsage" usages="door_frame,stair_base,stair_top"/>
+      <Rule type="notAdjacentToObject" directionsToCheck="n,s,e,w,ne,nw,se,sw" objectNames="lamp01"/>
+    </Object>
+
+    <!-- Enemies -->
+    <!--
+    <Object name="imp_spawner" usage="spawner" spawnList="imp">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="50"/>
+      <Rule type="roomDoesNotHaveUsage" usages="entrance"/>
+    </Object>
+
+    
+
+    <Object name="hell_knight_spawner" usage="spawner" spawnList="hell_knight">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="50"/>
+      <Rule type="roomDoesNotHaveUsage" usages="entrance"/>
+    </Object>
+    -->
+
+    <Object name="manc_spawner" usage="spawner" spawnList="manc">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="1"/>
+      <Rule type="roomDoesNotHaveUsage" usages="entrance"/>
+      <Signal type="onDeath" tag="bossDeath"/>
+    </Object>
+
+    <Object name="barrel01" file="obj/Barrel.obj" usage="static" attachment="green_light">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="150"/>
+      <Rule type="notAdjacentToUsage" usages="door_frame,stair_base,stair_top,corner_outside"/>
+    </Object>
+  </Objects>
+
+  <!--
+  Templates for creating the different Rooms of a area.
+  
+  Rules on UsesObject are local i.e. maxCount Rule is per Room and is reset in the next Room.
+  
+  Rooms can extend from other Rooms. This process will copy over all the UsesObject
+  and UsesStyles. Rules for the Room are NOT copied over.
+  Use <Rule type="maxCount" count="0"/> to force a Room not to spawn and use it like an abstract base.
+  -->
+  <Rooms>
+
+    <!-- Base room using general styles -->
+    <Room name="base_room">
+      <Rule type="maxCount" count="0"/>
+
+      <!--
+      The following logic will create a room with all slanted corners 25% of the time
+      
+      // 25% to be true if there are no corners placed yet
+      if ( randomChance( 25 ) && !hasStyles( corner_slant01, corner ) )
+        place( corner_slant01 )
+      // A slanted corner was placed, all other will be slanted
+      else if ( hasStyle( corner_slant01 ) )
+        place( corner_slant01 )
+      // Initial % check fail so all corners will be square
+      else
+        place( corner01 )
+        
+      xml implementation below:
+      -->
+      <!--
+      <UseStyle uses="corner_slant01">
+        <Rule type="random" percentToBeTrue="25"/>
+        <Rule type="roomDoesNotHaveStyle" styleNames="corner_slant01,corner01"/>
+      </UseStyle>
+      
+      <UseStyle uses="corner_slant01">
+        <Rule type="roomDoesHaveStyle" styleNames="corner_slant01"/>
+      </UseStyle>
+      -->
+      <UseStyle uses="corner01"/>
+
+
+      <UseStyle uses="floor01"/>
+      <UseStyle uses="wall01"/>
+      <UseStyle uses="corner_outsude01"/>
+      <UseStyle uses="stair_base01"/>
+      <UseStyle uses="stair_top01"/>
+      <UseStyle uses="door_frame01"/>
+
+      <UsesObject uses="red_light01"/>
+      <UsesObject uses="yellow_light01"/>
+
+      <UsesObject uses="lamp02">
+        <Rule type="distanceToUsage" minDistance="2" maxDistance="2" usages="entrance"/>
+      </UsesObject>
+
+      <!-- Levels 1-2 will have a shotgun zombie in the exit room 
+      <UsesObject uses="shotgunZombieSpawner">
+        <Rule type="maxCount" count="1"/>
+        <Rule type="roomDoesHaveUsage" usages="exit"/>
+        <Rule type="validDepths" validDepths="1-2"/>
+      </UsesObject>-->
+
+      <!-- Levels 3-4 will have a chaingun zombie in the exit room
+      <UsesObject uses="chaingunZombieSpawner">
+        <Rule type="maxCount" count="1"/>
+        <Rule type="roomDoesHaveUsage" usages="exit"/>
+        <Rule type="validDepths" validDepths="3-4"/>
+      </UsesObject>-->
+
+
+      
+    </Room>
+
+    <Room minRoomSize="16,16" extendsRooms="base_room">
+      <Rule type="maxCount" count="1"/>
+
+      <UsesObject uses="manc_spawner">
+        <Rule type="distanceToUsage" minDistance="7" usages="wall"/>
+      </UsesObject>
+
+      <UsesObject uses="pillar01">
+        <!--
+        Create a ring of pillars 3 cells from the walls.
+        -->
+        <Rule type="notAdjacentToUsage" directionsToCheck="ne,nw,se,sw" margin="3" usages="wall"/>
+        <Rule type="adjacentToUsage" directionsToCheck="ne,nw,se,sw" margin="4" usages="wall"/>
+        
+      </UsesObject>
+    </Room>
+
+    <Room maxRoomSize="6,6" extendsRooms="base_room">
+      <Rule type="maxCount" count="1"/>
+
+      <UseStyle uses="entrance01"/>
+      <UsesObject uses="shotgun">
+        <Rule type="maxCount" count="1"/>
+        <Rule type="adjacentToUsage" usages="entrance"/>
+      </UsesObject>
+    </Room>
+
+    <Room maxRoomSize="6,6" extendsRooms="base_room">
+      <Rule type="maxCount" count="1"/>
+
+      <UseStyle uses="door_exit"/>
+      <UseStyle uses="exit01"/>
+    </Room>
+
+  </Rooms>
+</Area>

@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C97B20FF-4781-4644-B54F-67CA803BFB1C}</ProjectGuid>
+    <RootNamespace>DungeonGenerator</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\libs\SDL\include;$(SolutionDir)..\libs\SDL_image\include;$(SolutionDir)..\libs\glew\include\GL;$(SolutionDir)..\libs\glm;$(SolutionDir)..\libs\bullet-2.82\src\;$(SoltutionDir)..\libs\assimp\include;./XmlUtil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\libs\SDL\lib\x86;$(SolutionDir)..\libs\SDL_image\lib;$(SolutionDir)..\libs\glew\lib;$(SolutionDir)..\libs\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;opengl32.lib;glu32.lib;glew32s.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\libs\SDL\include;$(SolutionDir)..\libs\SDL_image\include;$(SolutionDir)..\libs\glew\include\GL;$(SolutionDir)..\libs\glm;$(SolutionDir)..\libs\bullet-2.82\src\;$(SoltutionDir)..\libs\assimp\include;./XmlUtil;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\libs\SDL\lib\x86;$(SolutionDir)..\libs\SDL_image\lib;$(SolutionDir)..\libs\glew\lib;$(SolutionDir)..\libs\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;opengl32.lib;glu32.lib;glew32s.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="BitmapFont.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CharacterController.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="CustomPickup.cpp" />
+    <ClCompile Include="Decal.cpp" />
+    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="DungeonGenerator.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EventListener.cpp" />
+    <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="FileSystem_Win32.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameLog.cpp" />
+    <ClCompile Include="HashUtil.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="Key.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapObject.cpp" />
+    <ClCompile Include="MapTile.cpp" />
+    <ClCompile Include="MD2Animation.cpp" />
+    <ClCompile Include="MD2Model.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Minimap.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="PhysicsWorld.cpp" />
+    <ClCompile Include="Pickup.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="RNG.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Uniform.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="XmlUtil\StringUtil.cpp" />
+    <ClCompile Include="XmlUtil\tinyxml2.cpp" />
+    <ClCompile Include="XmlUtil\XmlReader.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Actor.h" />
+    <ClInclude Include="Ammo.h" />
+    <ClInclude Include="BitmapFont.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CharacterController.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="CustomPickup.h" />
+    <ClInclude Include="Decal.h" />
+    <ClInclude Include="Door.h" />
+    <ClInclude Include="DungeonGenerator.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityFactory.h" />
+    <ClInclude Include="EventListener.h" />
+    <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameLog.h" />
+    <ClInclude Include="HashUtil.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Key.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="MapObject.h" />
+    <ClInclude Include="MapTile.h" />
+    <ClInclude Include="MD2Animation.h" />
+    <ClInclude Include="MD2Model.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Minimap.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="PhysicsWorld.h" />
+    <ClInclude Include="Pickup.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Plotter.h" />
+    <ClInclude Include="PointLight.h" />
+    <ClInclude Include="RNG.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="Uniform.h" />
+    <ClInclude Include="Util.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeightedRandom.h" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="XmlUtil\StringUtil.h" />
+    <ClInclude Include="XmlUtil\tinyxml2.h" />
+    <ClInclude Include="XmlUtil\XmlReader.h" />
+    <ClInclude Include="Enemy.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\BossLevel1.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="data\CaveOfTorment.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="data\Enemies.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="data\Keys.xml" />
+    <None Include="data\Pickups.xml" />
+    <None Include="data\shaders\basic.frag.glsl" />
+    <None Include="data\shaders\basic.vert.glsl" />
+    <None Include="data\TestDungeon.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="data\Weapons.xml" />
+    <None Include="Todo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libs\bullet-2.82\build\vs2010\BulletCollision.vcxproj">
+      <Project>{c05f26d6-d371-4242-94eb-17ec2eb20c93}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\bullet-2.82\build\vs2010\BulletDynamics.vcxproj">
+      <Project>{227f0efe-2ca7-2742-a633-2c1d926d2f65}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\bullet-2.82\build\vs2010\LinearMath.vcxproj">
+      <Project>{63aa9837-5d49-9747-94c6-6380eebae8df}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

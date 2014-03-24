@@ -1,0 +1,31 @@
+<Pickups>
+  
+  <Pickup name="stimpack-s" model="obj/Medkit.obj">
+    <ModStat name="life" value="10"/>
+  </Pickup>
+
+  <Pickup name="stimpack-l" model="obj/Medkit.obj">
+    <ModStat name="life" value="30"/>
+  </Pickup>
+
+  <Pickup name="ammo-box" model="obj/Ammo.obj">
+    <ModStat name="ammo-bullets" value="100"/>
+  </Pickup>
+
+  <Pickup name="armor" model="obj/Armor.obj">
+    <ModStat name="armor" value="100"/>
+  </Pickup>
+
+  <Pickup name="shotgun" model="models/weapons/shotgun/Shotgun.obj" scale="0.025">
+    <GiveWeapon name="Shotgun"/>
+  </Pickup>
+
+  <Pickup name="chaingun" model="models/weapons/chaingun/chaingun.obj" scale="0.025">
+    <GiveWeapon name="Chaingun"/>
+  </Pickup>
+
+  <Pickup name="BFG9000" model="models/weapons/BFG9000/BFG9000.obj" scale="0.025">
+    <GiveWeapon name="BFG9000"/>
+  </Pickup>
+  
+</Pickups>

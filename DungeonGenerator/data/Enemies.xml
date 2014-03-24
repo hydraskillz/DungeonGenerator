@@ -1,0 +1,23 @@
+<Enemies>
+  <Enemy name="zombie01" bodyModel="models/enemies/soldier/doom_body.md2" headModel="models/enemies/soldier/head_fodder.md2" headTextureIndex="0" weaponModel="models/enemies/soldier/weapon_rifle.md2" deathAnimName="deth" painAnimName="pain" attackAnimName="fire" idleAnimName="walk"/>
+  <Enemy name="zombie02" bodyModel="models/enemies/soldier/doom_body.md2" headModel="models/enemies/soldier/head_fodder.md2" headTextureIndex="1" weaponModel="models/enemies/soldier/weapon_rifle.md2" deathAnimName="deth" painAnimName="pain" attackAnimName="fire" idleAnimName="walk"/>
+  <Enemy name="zombie03" bodyModel="models/enemies/soldier/doom_body.md2" headModel="models/enemies/soldier/head_fodder.md2" headTextureIndex="2" weaponModel="models/enemies/soldier/weapon_rifle.md2" deathAnimName="deth" painAnimName="pain" attackAnimName="fire" idleAnimName="walk"/>
+  <Enemy name="zombie04" bodyModel="models/enemies/soldier/doom_body.md2" headModel="models/enemies/soldier/head_fodder.md2" headTextureIndex="3" weaponModel="models/enemies/soldier/weapon_rifle.md2" deathAnimName="deth" painAnimName="pain" attackAnimName="fire" idleAnimName="walk"/>
+  <Enemy name="zombie05" bodyModel="models/enemies/soldier/doom_body.md2" headModel="models/enemies/soldier/head_fodder.md2" headTextureIndex="4" weaponModel="models/enemies/soldier/weapon_rifle.md2" deathAnimName="deth" painAnimName="pain" attackAnimName="fire" idleAnimName="walk"/>
+  
+  <Enemy name="zombie_shotgun01" bodyModel="models/enemies/soldier/doom_body.md2" bodyTextureIndex="1" headModel="models/enemies/soldier/head_sarge.md2" headTextureIndex="0" weaponModel="models/enemies/soldier/weapon_shotty.md2" deathAnimName="deth" painAnimName="pain" attackAnimName="fire" idleAnimName="walk"/>
+  <Enemy name="zombie_shotgun02" bodyModel="models/enemies/soldier/doom_body.md2" bodyTextureIndex="1" headModel="models/enemies/soldier/head_sarge.md2" headTextureIndex="1" weaponModel="models/enemies/soldier/weapon_shotty.md2" deathAnimName="deth" painAnimName="pain" attackAnimName="fire" idleAnimName="walk"/>
+  <Enemy name="zombie_shotgun03" bodyModel="models/enemies/soldier/doom_body.md2" bodyTextureIndex="1" headModel="models/enemies/soldier/head_sarge.md2" headTextureIndex="2" weaponModel="models/enemies/soldier/weapon_shotty.md2" deathAnimName="deth" painAnimName="pain" attackAnimName="fire" idleAnimName="walk"/>
+  <Enemy name="zombie_shotgun04" bodyModel="models/enemies/soldier/doom_body.md2" bodyTextureIndex="1" headModel="models/enemies/soldier/head_sarge.md2" headTextureIndex="3" weaponModel="models/enemies/soldier/weapon_shotty.md2" deathAnimName="deth" painAnimName="pain" attackAnimName="fire" idleAnimName="walk"/>
+  <Enemy name="zombie_shotgun05" bodyModel="models/enemies/soldier/doom_body.md2" bodyTextureIndex="1" headModel="models/enemies/soldier/head_sarge.md2" headTextureIndex="4" weaponModel="models/enemies/soldier/weapon_shotty.md2" deathAnimName="deth" painAnimName="pain" attackAnimName="fire" idleAnimName="walk"/>
+
+  <Enemy name="zombie_chaingun01" bodyModel="models/enemies/soldier/doom_body.md2" bodyTextureIndex="2" headModel="models/enemies/soldier/head_chainy.md2" headTextureIndex="0" weaponModel="models/enemies/soldier/weapon_chaingun.md2" deathAnimName="deth" painAnimName="pain" attackAnimName="fire" idleAnimName="walk"/>
+  <Enemy name="zombie_chaingun02" bodyModel="models/enemies/soldier/doom_body.md2" bodyTextureIndex="2" headModel="models/enemies/soldier/head_chainy.md2" headTextureIndex="1" weaponModel="models/enemies/soldier/weapon_chaingun.md2" deathAnimName="deth" painAnimName="pain" attackAnimName="fire" idleAnimName="walk"/>
+
+  <Enemy name="manc" bodyModel="models/enemies/manc/Manc.md2" deathModel="models/enemies/manc/Mancdeath_1.md2" idleAnimName="walk1" painAnimName="pain1" attackAnimName="attack1"/>
+  
+<!--
+  <Enemy name="hell_knight" bodyModel="models/enemies/hellknight/bruiser_body.md2" headModel="models/enemies/hellknight/bruiser_head.md2" deathModel="models/enemies/hellknight/BaronOfHell_Death.md2" idleAnimName="stand" painAnimName="pain" attackAnimName="attack"/>
+  <Enemy name="imp" bodyModel="models/enemies/imp/Imp.md2" weaponModel="models/enemies/imp/Imp-Hand.md2" deathModel="models/enemies/imp/ImpDeath.md2" deathAnimName="frame"/>
+  -->
+</Enemies>

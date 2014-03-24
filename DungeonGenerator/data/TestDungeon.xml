@@ -1,0 +1,533 @@
+<!--
+This file attempts to document and illustrate all the possible commands in level generation.
+However since there are far too many combinations to use in any single level a very 'complete' level is presented as an example.
+
+You control level generation through giving various components rules. The following tags support rules:
+  <Style>
+  <Object>
+  <Room>
+  <UsesObject>
+  <UsesStyle>
+
+In the case of <Uses..> tags the rules of the object/style they reference are componded with the rules of the <Uses..> tag.
+Rules in <Style>, <Object> and <Room> are consider to be global, i.e. maxCount is checked for the entire level
+Rules in <Uses..> are considered local, i.e. maxCount is per room.
+Any of the rule supporting tags may use the attribute extendsRules= CSV of names of similar tags to copy rules from
+The syntax for rules is <Rule type=[type] [attributes]/> See list of rules below.
+
+Rules:
+ [type]                         [attributes]
+ random                         percentToBeTrue= int [0,100]
+ canSpawnOn                     usages= CSV of usage names
+ canNotSpawnOn                  usages= CSV of usage names
+ maxCount                       count= int
+ notAdjacentToUsage             directionsToCheck="n,s,e,w,ne,nw,se,sw" (default= "n,s,e,w") margin="int cells to extend" (default= 1) usages= CSV of usage names
+ notAdjacentToObject            directionsToCheck="n,s,e,w,ne,nw,se,sw" (default= "n,s,e,w") margin="int cells to extend" (default= 1) objectNames= CSV of object names
+ notAdjacentToStyle             directionsToCheck="n,s,e,w,ne,nw,se,sw" (default= "n,s,e,w") margin="int cells to extend" (default= 1) styleNames= CSV of style names
+ adjacentToUsage                directionsToCheck="n,s,e,w,ne,nw,se,sw" (default= "n,s,e,w") margin="int cells to extend" (default= 1) usages= CSV of usage names
+ adjacentToObject               directionsToCheck="n,s,e,w,ne,nw,se,sw" (default= "n,s,e,w") margin="int cells to extend" (default= 1) objectNames= CSV of object names
+ adjacentToStyle                directionsToCheck="n,s,e,w,ne,nw,se,sw" (default= "n,s,e,w") margin="int cells to extend" (default= 1) styleNames= CSV of style names
+ distanceToUsage                minDistance= int maxDistance= int (default= 0) usages= CSV of usage names
+ distanceToObject               minDistance= int maxDistance= int (default= 0) objectNames= CSV of object names
+ distanceToStyle                minDistance= int maxDistance= int (default= 0) styleNames= CSV of style names
+ roomDoesHaveUsage              usages= CSV of usage names
+ roomDoesHaveObject             objectNames= CSV of object names
+ roomDoesHaveStyle              styleNames= CSV of style names
+ roomDoesNotHaveUsage           usages= CSV of usage names
+ roomDoesNotHaveObject          objectNames= CSV of object names
+ roomDoesNotHaveStyle           styleNames= CSV of style names
+ validDepths                    validDepths= CSV of depths (see note on special syntax for depths)
+ 
+ 
+ Note of validDepths syntax:
+  This is a CSV of depth values with 1 being the first floor.
+  A value of 0 in this list signals that the rule is valid at any depth.
+  There is a special syntax for the depth values:
+   0        - All depths
+   x        - Just on this depth
+   -x       - All depths up to and including this depth
+   x+       - All depths after and including this depth
+   x-y      - All depths from x to y inclusive
+  Example: "-3,5-7,9+" will use the rule at all depths except 4 and 8
+ 
+
+areaSize above 100x100 will be slow to load
+if you make the rooms too large (above 40x40) there will be visible fog
+going below 5x5 room size is not reccomended and may crash or create impossible levels
+
+typical size
+minRoomSize="6,6" maxRoomSize="16,16"
+
+maze size
+minRoomSize="5,5" maxRoomSize="5,5"
+
+name                      - (opt) (def="Dungeon")       unused for now
+areaSize                  - (req)                       size of the grid used for generation
+maxRooms                  - (opt) (def="0")             max number of rooms to create. 0 -> infinite
+min/maxRoomSize           - (req)                       grid size used for rooms
+verticalness              - (opt) (def="0.5")           % chance a room will increase or decrease in height relative to its neighbor
+verticalBiasUp/Down       - (opt) (def="0.5")           bias in verticalness, % chance up or down
+doorChance                - (opt) (def="0.5")           % chance a door will be created between two rooms
+doorLockChance            - (opt) (def="0.5")           % chance a door will be mLocked
+ambientLightColor         - (opt) (def="1.0,1.0,1.0")   color of global ambient light
+ambientLightIntensity     - (opt) (def="1.0")           intensity of global ambient light
+endDepth                  - (opt) (def="0")             after this depth load the next area. if endDepth is 0 new depths are generated infinitly
+nextArea                  - (opt) (def="")              next area.xml file to load. if not specified endDepth is set to 0
+-->
+<Area name="Dungeon Of Testing"
+      areaSize="50,50"
+      maxRooms="100"
+      minRoomSize="6,6" maxRoomSize="16,16"
+      verticalness="0.5"
+      verticalBiasUp="0.5"
+      verticalBiasDown="0.5"
+      doorChance="0.5"
+      doorLockChance="0.5"
+      ambientLightColor="1.0,1.0,1.0"
+      ambientLightIntensity="0.15"
+      endDepth="5"
+      nextArea="BossLevel1.xml">
+
+  <!--
+  Styles are visuals applied to the different types of tiles in the area.
+  
+  Style
+   name         - (req) Name used for referencing this style
+   file         - (req) Path from data/ to file containing the 3D asset
+   usage        - (req) Where this style is used at
+   
+  Note: usage 'door' is never actually placed, instead it is used with door_frame
+        so if you need something relative to a door use door_frame
+  -->
+  <Styles>
+    <Style name="floor01" file="obj/floor01.obj" usage="floor"/>
+    <Style name="wall01" file="obj/wall01.obj" usage="wall"/>
+    <Style name="corner_outsude01" file="obj/corner_outside.obj" usage="corner_outside"/>
+    <Style name="corner01" file="obj/corner01.obj" usage="corner"/>
+    <Style name="corner_slant01" file="obj/corner_slant01.obj" usage="corner"/>
+    <Style name="stair_base01" file="obj/stair_base01.obj" usage="stair_base"/>
+    <Style name="stair_top01" file="obj/stair_top01.obj" usage="stair_top"/>
+    <Style name="door_frame01" file="obj/door_frame01.obj" usage="door_frame"/>
+    <Style name="door01" file="obj/door01.obj" usage="door"/>
+    <Style name="exit01" file="obj/exit01.obj" usage="exit"/>
+    <Style name="entrance01" file="obj/exit01.obj" usage="entrance"/>
+  </Styles>
+
+  <!--
+  SpawnLists are used to group sets of enemies to spawn.
+  A spawner type object takes a SpawnList and picks a random enemy from it to spawn.
+  -->
+  <SpawnLists>
+    <SpawnList name="basicZombies" list="zombie01,zombie02,zombie03,zombie04,zombie05"/>
+    <SpawnList name="shotgunZombies" list="zombie_shotgun01,zombie_shotgun02,zombie_shotgun03,zombie_shotgun04,zombie_shotgun05"/>
+    <SpawnList name="advancedZombies" list="zombie01,zombie02,zombie03,zombie04,zombie05,zombie_shotgun01,zombie_shotgun02,zombie_shotgun03,zombie_shotgun04,zombie_shotgun05"/>
+    <SpawnList name="chaingunZombies" list="zombie_chaingun01,zombie_chaingun02"/>
+    <SpawnList name="allZombies" extendsLists="basicZombies,shotgunZombies,chaingunZombies"/>
+    <!--
+    <SpawnList name="imp" list="imp"/>
+    <SpawnList name="manc" list="manc"/>
+    <SpawnList name="hell_knight" list="hell_knight"/>
+    -->
+  </SpawnLists>
+
+  <!--
+  Objects that can be spawned in the rooms.
+  
+  Object
+   name         - (req) Name used for referencing this object
+   file         - (req) Path from data/ to file containing the 3D asset
+   usage        - (req) How this object is used
+   canSpawnOn   - (req) What kind of tile this object can spawn on
+   
+  Rules on objects are global i.e. a maxCount Rule applies across all Rooms.
+  -->
+  <Objects>
+    <!-- Lights -->
+    <Object name="computer_light" usage="light" lightColor="0,0.2,0.8" lightRadius="0.53" lightFalloff="0.2" lightIntensity="0.3" localSpawnOffset="0.0,0.5,0"/>
+
+    <Object name="pickup_light" usage="light" lightColor="1,1,1" lightRadius="0.35" lightFalloff="0.2" lightIntensity="0.4"/>
+
+    <Object name="red_light01" usage="light" lightColor="1,0,0" localSpawnOffset="0,0.5,0">
+      <Rule type="canSpawnOn" usages="exit"/>
+    </Object>
+
+    <Object name="yellow_light01" usage="light" lightColor="1,1,0" localSpawnOffset="0,0.5,0">
+      <Rule type="canSpawnOn" usages="entrance"/>
+    </Object>
+
+    <Object name="test_light01" usage="light" lightColor="0,1,0" localSpawnOffset="0,0.5,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="15"/>
+    </Object>
+    <Object name="test_light02" usage="light" lightColor="0,0,1" localSpawnOffset="0,0.5,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="15"/>
+    </Object>
+    <Object name="test_light03" usage="light" lightColor="1,0,0" localSpawnOffset="0,0.5,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="15"/>
+    </Object>
+    
+    <!-- Static Objects -->
+    <Object name="pillar01" file="obj/pillar01.obj" usage="static">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="notAdjacentToUsage" usages="door_frame,stair_base,stair_top,corner_outside"/>
+      <Rule type="notAdjacentToObject" directionsToCheck="n,s,e,w,ne,nw,se,sw" objectNames="pillar01"/>
+    </Object>
+
+    <Object name="computer01" file="obj/computer01.obj" usage="static" attachment="computer_light">
+      <Rule type="canSpawnOn" usages="wall"/>
+      <Rule type="notAdjacentToUsage" usages="door_frame,stair_base,stair_top,corner_outside"/>
+      <Rule type="notAdjacentToObject" directionsToCheck="n,s,e,w,ne,nw,se,sw" objectNames="pillar01"/>
+    </Object>
+
+    <!-- Loot -->
+    <Object name="health_pack01" usage="pickup" pickupName="stimpack-s" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="5"/>
+    </Object>
+
+    <Object name="ammo01" usage="pickup" pickupName="ammo-box" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="5"/>
+    </Object>
+
+    <!-- Treasure Room Loot -->
+    <Object name="armor_tr01" usage="pickup" pickupName="armor" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+    </Object>
+
+    <Object name="health_pack_tr01" usage="pickup" pickupName="stimpack-s" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+    </Object>
+
+    <Object name="ammo_tr01" usage="pickup" pickupName="ammo-box" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+    </Object>
+
+
+    <!-- Weapons -->
+    <Object name="shotgun" usage="pickup" pickupName="shotgun" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+    </Object>
+
+    <Object name="chaingun" usage="pickup" pickupName="chaingun" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+    </Object>
+
+    <Object name="bfg9000" usage="pickup" pickupName="BFG9000" attachment="pickup_light" localSpawnOffset="0,0.2,0">
+      <Rule type="canSpawnOn" usages="floor"/>
+    </Object>
+
+    
+
+    
+
+    <Object name="lamp_light" usage="light" lightColor="1,1,1" lightRadius="1.33" localSpawnOffset="0,0.5,0"/>
+    <Object name="lamp_light2" usage="light" lightColor="1,1,0" lightRadius="0.53" lightFalloff="0.2" localSpawnOffset="0,0.5,0"/>
+    <Object name="green_light" usage="light" lightColor="0.63,0.69,0.3" lightRadius="0.67" lightFalloff="0.8" localSpawnOffset="0,0.75,0"/>
+
+    <Object name="lamp01" file="obj/lamp01.obj" usage="static" attachment="lamp_light">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="notAdjacentToUsage" usages="door_frame,stair_base,stair_top,corner_outside"/>
+      <Rule type="notAdjacentToObject" directionsToCheck="n,s,e,w,ne,nw,se,sw" objectNames="lamp01"/>
+    </Object>
+
+    <Object name="lamp02" file="obj/lamp01.obj" usage="static" attachment="lamp_light2">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="notAdjacentToUsage" usages="door_frame,stair_base,stair_top"/>
+      <Rule type="notAdjacentToObject" directionsToCheck="n,s,e,w,ne,nw,se,sw" objectNames="lamp01"/>
+    </Object>
+
+    <!-- Enemies -->
+    <!--
+    <Object name="imp_spawner" usage="spawner" spawnList="imp">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="50"/>
+      <Rule type="roomDoesNotHaveUsage" usages="entrance"/>
+    </Object>
+
+    <Object name="manc_spawner" usage="spawner" spawnList="manc">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="50"/>
+      <Rule type="roomDoesNotHaveUsage" usages="entrance"/>
+    </Object>
+
+    <Object name="hell_knight_spawner" usage="spawner" spawnList="hell_knight">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="50"/>
+      <Rule type="roomDoesNotHaveUsage" usages="entrance"/>
+    </Object>
+    -->
+
+    <Object name="basicZombieSpawner" usage="spawner" spawnList="basicZombies">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="roomDoesNotHaveUsage" usages="entrance"/>
+      
+    </Object>
+
+    <Object name="basicZombieSpawnsLv1" usage="spawner" spawnList="basicZombies" extendsRules="basicZombieSpawner">
+      <Rule type="validDepths" validDepths="1"/>
+      <Rule type="maxCount" count="50"/>
+    </Object>
+
+    <Object name="basicZombieSpawnsLv2-3" usage="spawner" spawnList="advancedZombies" extendsRules="basicZombieSpawner">
+      <Rule type="validDepths" validDepths="2-3"/>
+      <Rule type="maxCount" count="65"/>
+    </Object>
+
+    <Object name="basicZombieSpawnsLv4" usage="spawner" spawnList="allZombies" extendsRules="basicZombieSpawner">
+      <Rule type="validDepths" validDepths="4"/>
+      <Rule type="maxCount" count="80"/>
+    </Object>
+
+    <Object name="basicZombieSpawner" usage="spawner" spawnList="basicZombies">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="roomDoesNotHaveUsage" usages="entrance"/>
+    </Object>
+    
+    <Object name="shotgunZombieSpawner" usage="spawner" spawnList="shotgunZombies">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="roomDoesNotHaveUsage" usages="entrance"/>
+    </Object>
+
+    <Object name="chaingunZombieSpawner" usage="spawner" spawnList="chaingunZombies">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="roomDoesNotHaveUsage" usages="entrance"/>
+    </Object>
+
+    
+
+    <Object name="barrel01" file="obj/Barrel.obj" usage="static" attachment="green_light">
+      <Rule type="canSpawnOn" usages="floor"/>
+      <Rule type="maxCount" count="150"/>
+      <Rule type="notAdjacentToUsage" usages="door_frame,stair_base,stair_top,corner_outside"/>
+    </Object>
+  </Objects>
+  
+  <!--
+  Templates for creating the different Rooms of a area.
+  
+  Rules on UsesObject are local i.e. maxCount Rule is per Room and is reset in the next Room.
+  
+  Rooms can extend from other Rooms. This process will copy over all the UsesObject
+  and UsesStyles. Rules for the Room are NOT copied over.
+  Use <Rule type="maxCount" count="0"/> to force a Room not to spawn and use it like an abstract base.
+  -->
+  <Rooms>
+    <!-- Lighting Test -->
+    <Room name="testLights">
+      <Rule type="maxCount" count="0"/>
+      
+      <UsesObject uses="test_light01">
+        <Rule type="random" percentToBeTrue="5"/>
+      </UsesObject>
+      <UsesObject uses="test_light02">
+        <Rule type="random" percentToBeTrue="5"/>
+      </UsesObject>
+      <UsesObject uses="test_light03">
+        <Rule type="random" percentToBeTrue="5"/>
+      </UsesObject>
+    </Room>
+
+    <!-- Base room using general styles -->
+    <Room name="base_room">
+      <Rule type="maxCount" count="0"/>
+
+      <!--
+      The following logic will create a room with all slanted corners 25% of the time
+      
+      // 25% to be true if there are no corners placed yet
+      if ( randomChance( 25 ) && !hasStyles( corner_slant01, corner ) )
+        place( corner_slant01 )
+      // A slanted corner was placed, all other will be slanted
+      else if ( hasStyle( corner_slant01 ) )
+        place( corner_slant01 )
+      // Initial % check fail so all corners will be square
+      else
+        place( corner01 )
+        
+      xml implementation below:
+      -->
+      <UseStyle uses="corner_slant01">
+        <Rule type="random" percentToBeTrue="25"/>
+        <Rule type="roomDoesNotHaveStyle" styleNames="corner_slant01,corner01"/>
+      </UseStyle>
+      
+      <UseStyle uses="corner_slant01">
+        <Rule type="roomDoesHaveStyle" styleNames="corner_slant01"/>
+      </UseStyle>
+      
+      <UseStyle uses="corner01"/>
+      
+      
+      <UseStyle uses="floor01"/>
+      <UseStyle uses="wall01"/>
+      <UseStyle uses="corner_outsude01"/>
+      <UseStyle uses="stair_base01"/>
+      <UseStyle uses="stair_top01"/>
+      <UseStyle uses="door_frame01"/>
+      <UseStyle uses="door01"/>
+      <UseStyle uses="exit01"/>
+      <UseStyle uses="entrance01"/>
+
+      <UsesObject uses="red_light01"/>
+      <UsesObject uses="yellow_light01"/>
+
+      <UsesObject uses="lamp02">
+        <Rule type="distanceToUsage" minDistance="2" maxDistance="2" usages="entrance"/>
+      </UsesObject>
+
+      <UsesObject uses="shotgun">
+        <Rule type="maxCount" count="1"/>
+        <Rule type="adjacentToUsage" usages="entrance"/>
+        <Rule type="validDepths" validDepths="1"/>
+      </UsesObject>
+
+      <!-- Levels 1-2 will have a shotgun zombie in the exit room -->
+      <UsesObject uses="shotgunZombieSpawner">
+        <Rule type="maxCount" count="1"/>
+        <Rule type="roomDoesHaveUsage" usages="exit"/>
+        <Rule type="validDepths" validDepths="1-2"/>
+      </UsesObject>
+
+      <!-- Levels 3-4 will have a chaingun zombie in the exit room -->
+      <UsesObject uses="chaingunZombieSpawner">
+        <Rule type="maxCount" count="1"/>
+        <Rule type="roomDoesHaveUsage" usages="exit"/>
+        <Rule type="validDepths" validDepths="3-4"/>
+      </UsesObject>
+      
+      
+
+      <!--
+       <UsesObject uses="shotgun">
+        <Rule type="maxCount" count="1"/>
+        <Rule type="adjacentToUsage" usages="entrance"/>
+      </UsesObject>
+
+       <UsesObject uses="lamp01">
+        <Rule type="random" percentToBeTrue="5"/>
+        <Rule type="maxCount" count="2"/>
+      </UsesObject>
+
+      <UsesObject uses="lamp02">
+        <Rule type="random" percentToBeTrue="5"/>
+        <Rule type="maxCount" count="1"/>
+      </UsesObject>
+      
+      <UsesObject uses="barrel01">
+        <Rule type="random" percentToBeTrue="5"/>
+        <Rule type="maxCount" count="5"/>
+      </UsesObject>
+      -->
+    </Room>
+
+    <!-- General Enemy Spawns -->
+    <Room name="base_enemy_spawns">
+      <Rule type="maxCount" count="0"/>
+
+      <UsesObject uses="basicZombieSpawnsLv1">
+        <Rule type="maxCount" count="2"/>
+        <Rule type="random" percentToBeTrue="5"/>
+      </UsesObject>
+
+      <UsesObject uses="basicZombieSpawnsLv2-3">
+        <Rule type="maxCount" count="4"/>
+        <Rule type="random" percentToBeTrue="5"/>
+      </UsesObject>
+
+      <UsesObject uses="basicZombieSpawnsLv4">
+        <Rule type="maxCount" count="8"/>
+        <Rule type="random" percentToBeTrue="5"/>
+      </UsesObject>
+      
+    </Room>
+
+    <!-- Random small loot -->
+    <Room name="small_loot">
+      <Rule type="maxCount" count="0"/>
+      
+      <UsesObject uses="health_pack01">
+        <Rule type="random" percentToBeTrue="5"/>
+        <Rule type="maxCount" count="1"/>
+      </UsesObject>
+
+      <UsesObject uses="ammo01">
+        <Rule type="random" percentToBeTrue="5"/>
+        <Rule type="maxCount" count="1"/>
+      </UsesObject>
+    </Room>
+
+    <!-- Special treasure room. There is only 1 and it doesn't always spawn -->
+    <Room name="treasure_room" extendsRooms="base_room">
+      <Rule type="maxCount" count="1"/>
+      <Rule type="random" percentToBeTrue="10"/>
+      
+      <UsesObject uses="armor_tr01">
+        <Rule type="maxCount" count="1"/>
+      </UsesObject>
+      
+      <UsesObject uses="health_pack_tr01">
+        <Rule type="maxCount" count="2"/>
+      </UsesObject>
+
+      <UsesObject uses="ammo_tr01">
+        <Rule type="maxCount" count="2"/>
+      </UsesObject>
+
+      <UsesObject uses="chaingun">
+        <Rule type="maxCount" count="1"/>
+      </UsesObject>
+    </Room>
+    
+    <!-- Empty room -->
+    <Room name="empty_room" extendsRooms="base_room,small_loot,base_enemy_spawns">
+      <Rule type="maxCount" count="0"/>
+    </Room>
+
+    <!-- Room with 4 pillars, one in each corner -->
+    <Room name="4pillars" extendsRooms="empty_room">
+      <Rule type="random" percentToBeTrue="25"/>
+      <UsesObject uses="pillar01">
+        <Rule type="adjacentToUsage" directionsToCheck="ne,nw,se,sw" usages="corner"/>
+        <Rule type="maxCount" count="4"/>
+      </UsesObject>
+    </Room>
+
+    <!-- Room with 4 pillars not in the corner -->
+    <Room name="4random_pillars" extendsRooms="empty_room">
+      <Rule type="random" percentToBeTrue="25"/>
+      <UsesObject uses="pillar01">
+        <Rule type="notAdjacentToUsage" directionsToCheck="ne,nw,se,sw" usages="corner"/>
+        <Rule type="maxCount" count="4"/>
+      </UsesObject>
+    </Room>
+
+    <!-- Room with computers and some lamps -->
+    <Room name="lab" extendsRooms="empty_room">
+      <Rule type="random" percentToBeTrue="25"/>
+      <UsesObject uses="computer01">
+        <Rule type="random" percentToBeTrue="5"/>
+        <Rule type="maxCount" count="8"/>
+      </UsesObject>
+
+      <UsesObject uses="lamp01">
+        <Rule type="random" percentToBeTrue="5"/>
+        <Rule type="distanceToUsage" minDistance="2" usages="wall"/>
+        <Rule type="maxCount" count="4"/>
+      </UsesObject>
+    </Room>
+
+    <Room extendsRooms="4pillars,lab">
+      <Rule type="random" percentToBeTrue="35"/>
+    </Room>
+    
+    <Room extendsRooms="4random_pillars,lab">
+      <Rule type="random" percentToBeTrue="35"/>
+    </Room>
+
+    <Room extendsRooms="empty_room"/>
+    
+  </Rooms>
+</Area>
